@@ -24,5 +24,8 @@ namespace IPM.Core.Dtos
 
         [JsonPropertyName("confirmado")]
         public bool? Confirmado { get; set; }
+
+        [JsonPropertyName("token")]
+        public string? Token { get; set; }
     }
 }

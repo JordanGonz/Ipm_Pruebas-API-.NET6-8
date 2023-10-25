@@ -29,7 +29,8 @@ namespace IPM.Services
                 Contraseña = usuario.Contraseña,
                 ConfirmarClave = usuario.ConfirmarClave,
                 Restablecer = usuario.Restablecer,
-                Confirmado = usuario.Confirmado
+                Confirmado = usuario.Confirmado,
+                Token = usuario.Token  // Asegúrate de asignar el token
             }).ToList();
             return usuariosDto;
         }
@@ -47,7 +48,8 @@ namespace IPM.Services
                     Contraseña = usuario.Contraseña,
                     ConfirmarClave = usuario.ConfirmarClave,
                     Restablecer = usuario.Restablecer,
-                    Confirmado = usuario.Confirmado
+                    Confirmado = usuario.Confirmado,
+                    Token = usuario.Token  // Asegúrate de asignar el token
                 };
             }
             else
@@ -58,6 +60,9 @@ namespace IPM.Services
 
         public async Task<UsuarioDto> CrearUsuario(UsuarioDto usuarioDto)
         {
+            // Genera un token aleatorio para el nuevo usuario
+            usuarioDto.Token = GenerarTokenAleatorio();
+
             var nuevoUsuario = new Usuario
             {
                 Nombre = usuarioDto.Nombre,
@@ -65,7 +70,8 @@ namespace IPM.Services
                 Contraseña = usuarioDto.Contraseña,
                 ConfirmarClave = usuarioDto.ConfirmarClave,
                 Restablecer = usuarioDto.Restablecer ?? false,
-                Confirmado = usuarioDto.Confirmado ?? false
+                Confirmado = usuarioDto.Confirmado ?? false,
+                Token = usuarioDto.Token  // Asigna el token
             };
 
             _context.Usuarios.Add(nuevoUsuario);
@@ -79,7 +85,8 @@ namespace IPM.Services
                 Contraseña = nuevoUsuario.Contraseña,
                 ConfirmarClave = nuevoUsuario.ConfirmarClave,
                 Restablecer = nuevoUsuario.Restablecer,
-                Confirmado = nuevoUsuario.Confirmado
+                Confirmado = nuevoUsuario.Confirmado,
+                Token = nuevoUsuario.Token  // Asegúrate de incluir el token
             };
         }
 
@@ -116,6 +123,12 @@ namespace IPM.Services
             _context.Usuarios.Remove(usuarioExistente);
             await _context.SaveChangesAsync();
             return true;
+        }
+
+        private string GenerarTokenAleatorio()
+        {
+            // Lógica para generar un token aleatorio 
+            return Guid.NewGuid().ToString("N");
         }
     }
 }

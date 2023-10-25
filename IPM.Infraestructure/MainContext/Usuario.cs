@@ -19,5 +19,7 @@ public partial class Usuario
 
     public bool? Confirmado { get; set; }
 
+    public string? Token { get; set; }
+
     public virtual ICollection<Role> RolesRols { get; set; } = new List<Role>();
 }
