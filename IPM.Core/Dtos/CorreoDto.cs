@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 
 namespace IPM.Core.Dtos
 {
-    internal class CorreoDto
+    public class CorreoDto
     {
         [JsonPropertyName("Para")]
         public string Para { get; set; }
