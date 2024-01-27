@@ -9,8 +9,10 @@ namespace IPM.Core.Contracts.Services
     {
         Task<List<ProyectoDto>> ObtenerTodosLosProyectos();
         Task<ProyectoDto> ObtenerProyectoPorId(int idProyecto);
-        Task<ProyectoDto> CrearProyecto(ProyectoDto proyectoDto);
+        Task<bool> CrearProyecto(ProyectoCreacionDto proyectoDto);
         Task<bool> ActualizarProyecto(int idProyecto, ProyectoDto proyectoDto);
         Task<bool> EliminarProyecto(int idProyecto);
+
+        Task<List<ProyectoCatalogoDto>> ObtenerTodosLosProyectosConCatalogos(int UsuarioId);
     }
 }

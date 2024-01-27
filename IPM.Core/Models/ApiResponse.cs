@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace IPM.Core.Models
+namespace IPM.Core.Models.ApiResponse
 {
     public class Response<T>
     {
@@ -33,7 +33,7 @@ namespace IPM.Core.Models
         /// <summary>
         /// Actualiza las propiedades de la respuesta standard
         /// </summary>
-        public Response<T> Update(bool success, string message, T data)
+        public Response<T> Update(bool success, string message, T? data)
         {
             Success = success;
             Message = message;

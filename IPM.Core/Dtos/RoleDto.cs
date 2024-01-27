@@ -17,6 +17,16 @@ namespace IPM.Core.Dtos
         public string? Nombre { get; set; }
 
         [JsonPropertyName("estado")]
-        public bool? Estado { get; set; }
+        public string? Estado { get; set; }
+    }
+
+
+    public class RoleCreacionDto
+    {
+
+        [JsonPropertyName("nombre")]
+        public string? Nombre { get; set; }
+
+
     }
 }

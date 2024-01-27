@@ -4,25 +4,39 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IPM.Core.Dtos
+namespace IPM.Core.Dtos;
+
+public class LiderDto
 {
-    public class LiderDto
-    {
-        public int IdLider { get; set; }
+    public int IdPersona { get; set; }
 
-        public int IdCliente { get; set; }
+    public bool EsLiderIntegritySolutions { get; set; }
 
-        public int IdPersona { get; set; }
+}
 
-        public int Estado { get; set; }
+public class ObtenerLider
+{
+    public int IdLider { get; set; }
+    public string NombreLider { get; set; }
 
-        public DateTime FechaCreacion { get; set; }
+    public int IdPersona { get; set; }
 
-        public string UsuarioCreacion { get; set; } = null!;
+    public bool EsLiderIntegritySolutions { get; set; }
+}
 
-        public DateTime? FechaModificacion { get; set; }
+public class EditarLider
+{
+    public int IdLider { get; set; }
 
-        public string? UsuarioModificacion { get; set; }
+    public int IdPersona { get; set; }
 
-    }
+    public bool EsLiderIntegritySolutions { get; set; }
+}
+
+public class EliminarLider
+{
+
+    public int IdPersona { get; set; }
+
+    public bool EsLiderIntegritySolutions { get; set; }
 }

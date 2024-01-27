@@ -17,8 +17,6 @@ public partial class Empresa
 
     public string? Celular { get; set; }
 
-    public int Estado { get; set; }
-
     public DateTime FechaCreacion { get; set; }
 
     public string UsuarioCreacion { get; set; } = null!;
@@ -27,7 +25,7 @@ public partial class Empresa
 
     public string? UsuarioModificacion { get; set; }
 
-    public virtual ICollection<Cliente> Clientes { get; set; } = new List<Cliente>();
+    public string? Estado { get; set; }
 
-    public virtual CatalogoDetalle EstadoNavigation { get; set; } = null!;
+    public virtual ICollection<Cliente> Clientes { get; set; } = new List<Cliente>();
 }

@@ -2,26 +2,33 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using IPM.Core.Constants;
 using IPM.Core.Contracts.Services;
 using IPM.Core.Dtos;
 using IPM.Infraestructure.MainContext;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 
 namespace IPM.Services
 {
     public class ProyectoService : IProyectoService
     {
         private readonly IntegrityProjectManagementContext _context;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public ProyectoService(IntegrityProjectManagementContext context)
+        public ProyectoService(IntegrityProjectManagementContext context, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<List<ProyectoDto>> ObtenerTodosLosProyectos()
         {
             var proyectos = await _context.Proyectos.ToListAsync();
-            var proyectosDto = proyectos.Select(proyecto => new ProyectoDto
+            var proyectosDto = proyectos
+                .Where(a => a.Estado == IPMConstants.ESTADO_ACTIVO)
+                .Select(proyecto => new ProyectoDto
             {
                 IdProyecto = proyecto.IdProyecto,
                 IdCliente = proyecto.IdCliente,
@@ -30,18 +37,29 @@ namespace IPM.Services
                 Descripcion = proyecto.Descripcion,
                 FechaInicio = proyecto.FechaInicio,
                 FechaFin = proyecto.FechaFin,
-                Estado = proyecto.Estado,
-                FechaCreacion = proyecto.FechaCreacion,
-                UsuarioCreacion = proyecto.UsuarioCreacion,
-                FechaModificacion = proyecto.FechaModificacion,
-                UsuarioModificacion = proyecto.UsuarioModificacion
+
             }).ToList();
             return proyectosDto;
         }
+     
+
+
+        public async Task<List<ProyectoCatalogoDto>> ObtenerTodosLosProyectosConCatalogos(int idPersona)
+        {
+            return await _context.PersonaProyectosAsignacions
+                .Include(x => x.Proyecto)
+                .Where(p => p.PersonaId == idPersona && p.Estado == IPMConstants.ESTADO_ACTIVO)
+                .Select(proyecto => new ProyectoCatalogoDto
+                {
+                    IdProyecto = proyecto.ProyectoId,
+                    Descripcion = proyecto.Proyecto.CodigoProyecto + " - " + proyecto.Proyecto.Descripcion
+                }).ToListAsync();
+        }
+
 
         public async Task<ProyectoDto> ObtenerProyectoPorId(int idProyecto)
         {
-            var proyecto = await _context.Proyectos.FirstOrDefaultAsync(p => p.IdProyecto == idProyecto);
+            var proyecto = await _context.Proyectos.FirstOrDefaultAsync(p => p.IdProyecto == idProyecto && p.Estado == IPMConstants.ESTADO_ACTIVO);
             if (proyecto != null)
             {
                 return new ProyectoDto
@@ -53,11 +71,7 @@ namespace IPM.Services
                     Descripcion = proyecto.Descripcion,
                     FechaInicio = proyecto.FechaInicio,
                     FechaFin = proyecto.FechaFin,
-                    Estado = proyecto.Estado,
-                    FechaCreacion = proyecto.FechaCreacion,
-                    UsuarioCreacion = proyecto.UsuarioCreacion,
-                    FechaModificacion = proyecto.FechaModificacion,
-                    UsuarioModificacion = proyecto.UsuarioModificacion
+                  
                 };
             }
             else
@@ -66,47 +80,33 @@ namespace IPM.Services
             }
         }
 
-        public async Task<ProyectoDto> CrearProyecto(ProyectoDto proyectoDto)
+        public async Task<bool> CrearProyecto(ProyectoCreacionDto proyectoDto)
         {
+            var userName = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Name)?.Value;
             var nuevoProyecto = new Proyecto
             {
                 IdCliente = proyectoDto.IdCliente,
                 IdLiderPrincipal = proyectoDto.IdLiderPrincipal,
                 CodigoProyecto = proyectoDto.CodigoProyecto,
-                Descripcion = proyectoDto.Descripcion,
+                Descripcion = proyectoDto.Descripcion,        
+                UsuarioCreacion = (userName),
                 FechaInicio = proyectoDto.FechaInicio,
                 FechaFin = proyectoDto.FechaFin,
-                Estado = proyectoDto.Estado,
-                FechaCreacion = proyectoDto.FechaCreacion,
-                UsuarioCreacion = proyectoDto.UsuarioCreacion,
-                FechaModificacion = proyectoDto.FechaModificacion,
-                UsuarioModificacion = proyectoDto.UsuarioModificacion
-            };
-
+                FechaCreacion = DateTime.Now,
+                Estado = IPMConstants.ESTADO_ACTIVO
+        };
+           
             _context.Proyectos.Add(nuevoProyecto);
-            await _context.SaveChangesAsync();
+            int resp =await _context.SaveChangesAsync();
 
-            return new ProyectoDto
-            {
-                IdProyecto = nuevoProyecto.IdProyecto,
-                IdCliente = nuevoProyecto.IdCliente,
-                IdLiderPrincipal = nuevoProyecto.IdLiderPrincipal,
-                CodigoProyecto = nuevoProyecto.CodigoProyecto,
-                Descripcion = nuevoProyecto.Descripcion,
-                FechaInicio = nuevoProyecto.FechaInicio,
-                FechaFin = nuevoProyecto.FechaFin,
-                Estado = nuevoProyecto.Estado,
-                FechaCreacion = nuevoProyecto.FechaCreacion,
-                UsuarioCreacion = nuevoProyecto.UsuarioCreacion,
-                FechaModificacion = nuevoProyecto.FechaModificacion,
-                UsuarioModificacion = nuevoProyecto.UsuarioModificacion
-            };
+            return resp > 0;
+            
         }
 
         public async Task<bool> ActualizarProyecto(int idProyecto, ProyectoDto proyectoDto)
         {
             var proyectoExistente = await _context.Proyectos.FirstOrDefaultAsync(p => p.IdProyecto == idProyecto);
-
+            var userName = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Name)?.Value;
             if (proyectoExistente == null)
             {
                 return false;
@@ -118,11 +118,10 @@ namespace IPM.Services
             proyectoExistente.Descripcion = proyectoDto.Descripcion;
             proyectoExistente.FechaInicio = proyectoDto.FechaInicio;
             proyectoExistente.FechaFin = proyectoDto.FechaFin;
-            proyectoExistente.Estado = proyectoDto.Estado;
-            proyectoExistente.FechaCreacion = proyectoDto.FechaCreacion;
-            proyectoExistente.UsuarioCreacion = proyectoDto.UsuarioCreacion;
-            proyectoExistente.FechaModificacion = proyectoDto.FechaModificacion;
-            proyectoExistente.UsuarioModificacion = proyectoDto.UsuarioModificacion;
+           
+            proyectoExistente.FechaModificacion = DateTime.Now;
+            proyectoExistente.UsuarioModificacion = (userName);
+           
 
             _context.Proyectos.Update(proyectoExistente);
             await _context.SaveChangesAsync();
@@ -138,9 +137,9 @@ namespace IPM.Services
                 return false;
             }
 
-            _context.Proyectos.Remove(proyectoExistente);
-            await _context.SaveChangesAsync();
-            return true;
+            proyectoExistente.Estado = IPMConstants.ESTADO_INACTIVO;
+            int filasAfectadas= await _context.SaveChangesAsync();
+            return filasAfectadas > 0;
         }
     }
 }

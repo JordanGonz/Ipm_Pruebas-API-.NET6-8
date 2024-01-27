@@ -11,7 +11,7 @@ namespace IPM.Infraestructure.Mappers
             CreateMap<Permiso, PermisoDto>()
                 .ForMember(dest => dest.PermisoId, opt => opt.MapFrom(src => src.PermisoId))
                 .ForMember(dest => dest.Nombre, opt => opt.MapFrom(src => src.Nombre))
-                .ForMember(dest => dest.Estado, opt => opt.MapFrom(src => (bool)src.Estado));
+                .ForMember(dest => dest.Estado, opt => opt.MapFrom(src => src.Estado));
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using IPM.Core.Constants;
 using IPM.Core.Contracts.Services;
 using IPM.Core.Dtos;
 using IPM.Infraestructure.MainContext;
@@ -51,25 +52,22 @@ namespace IPM.Services
 
 
 
-        public async Task<RoleDto> CrearRol(RoleDto roleDto)
+        public async Task<bool> CrearRol(RoleCreacionDto roleDto)
         {
             
             var nuevoRol = new Role
             {
                 Nombre = roleDto.Nombre,
-                Estado = roleDto.Estado
+                
             };
-
+            nuevoRol.Estado = IPMConstants.ESTADO_ACTIVO;
             _context.Roles.Add(nuevoRol);
-            await _context.SaveChangesAsync();
+            int resp= await _context.SaveChangesAsync();
 
             // Mapea la entidad de rol nuevamente a un objeto RoleDto y devuélvelo
-            return new RoleDto
-            {
-                RolId = nuevoRol.RolId,
-                Nombre = nuevoRol.Nombre,
-                Estado = nuevoRol.Estado
-            };
+
+            return resp > 0;
+
         }
 
         public async Task<bool> ActualizarRol(int idRol, RoleDto roleDto)
@@ -99,9 +97,9 @@ namespace IPM.Services
                 return false;
             }
 
-            _context.Roles.Remove(rolExistente);
-            await _context.SaveChangesAsync();
-            return true;
+            rolExistente.Estado = IPMConstants.ESTADO_INACTIVO;
+            int filasAfectadas= await _context.SaveChangesAsync();
+            return filasAfectadas > 0;
         }
     }
 }

@@ -21,5 +21,5 @@ public partial class Catalogo
 
     public string? UsuarioModificacion { get; set; }
 
-    public virtual ICollection<CatalogoDetalle> CatalogoDetalles { get; set; } = new List<CatalogoDetalle>();
+    public string? NombreMostrar { get; set; }
 }

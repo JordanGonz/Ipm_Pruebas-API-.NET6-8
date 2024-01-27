@@ -2,8 +2,8 @@
   "ExpandedNodes": [
     "",
     "\\IPM.Infraestructure",
-    "\\IPM.Infraestructure\\Mappers"
+    "\\IPM.Infraestructure\\Repositories"
   ],
-  "SelectedNode": "\\IPM.Infraestructure\\Mappers\\UsuarioProfile.cs",
+  "SelectedNode": "\\IPM.Infraestructure\\Repositories\\AsignacionRepository.cs",
   "PreviewInSolutionExplorer": false
 }

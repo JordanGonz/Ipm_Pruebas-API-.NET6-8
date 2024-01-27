@@ -9,10 +9,11 @@ namespace IPM.Core.Contracts.Services
 {
     public interface ICatalogoService
     {
-        Task<List<CatalogoDto>> ObtenerTodosLosCatalogoAsync();
-        Task<CatalogoDto> ObteneCatalogoPorIdAsync(int catalogoId);
-        Task<CatalogoDto> CrearCatalogoAsync(CatalogoDto catalogoDto);
-        Task<bool> ActualizaCatalogoAsync(int catalogoId, CatalogoDto catalogoDto);
+        Task<List<CatalogoDto>> ObtenerTodosLosCatalogoAsync(string nemonico);
+        Task<List<CatalogoMostrarNombre>> ObtenerTodosLosNombresdeSuNemonico();
+        Task<CatalogoDto> ObtenerCatalogoPorIdAsync(int idCatalogo);
+        Task<bool> CrearCatalogoAsync(CatalogoCreacionDTO catalogoCreacionDTO);
+        Task<bool> ActualizarCatalogoAsync(int catalogoId, CatalogoDto catalogoDto);
         Task<bool> EliminarCatalogoAsync(int catalogoId);
     }
 }

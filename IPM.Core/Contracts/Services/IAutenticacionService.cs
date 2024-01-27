@@ -1,9 +1,10 @@
-﻿using IPM.Core.Models.Seguridad;
+﻿using IPM.Core.Dtos;
+using IPM.Core.Models.Seguridad;
 
-namespace IPM.Core.Contracts.Services
+namespace IPM.Core.Contracts.Services;
+
+public interface IAuthenticationService
 {
-    public interface IAuthenticationService
-    {
-        bool IsAuthenticated(UsuarioLogin request);
-    }
+    Task<RolesUsuarioPorToken> IsAuthenticated(LoginDto request);
+    bool IsAuthenticated(UserLogin request);
 }

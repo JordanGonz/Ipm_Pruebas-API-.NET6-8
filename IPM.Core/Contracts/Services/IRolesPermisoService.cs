@@ -9,7 +9,7 @@ namespace IPM.Core.Contracts.Services
     {
         Task<List<RolesPermisoDto>> ObtenerTodosLosRolesPermiso();
         Task<RolesPermisoDto> ObtenerRolePermisoPorId(int idRol);
-        Task<RolesPermisoDto> CrearRolePermiso(RolesPermisoDto rolesPermisoDto);
+        Task <bool> CrearRolePermiso(RolesCreacionPermiso rolesPermisoDto);
         Task<bool> ActualizarRolePermiso(int idRol, RolesPermisoDto rolesPermisoDto);
         Task<bool> EliminarRolePermiso(int idRol);
     }

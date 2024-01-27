@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using IPM.Core.Constants;
 using IPM.Core.Contracts.Services;
 using IPM.Core.Dtos;
 using IPM.Infraestructure.MainContext;
@@ -25,7 +26,7 @@ namespace IPM.Services
             {
                 PermisoId = permiso.PermisoId,
                 Nombre = permiso.Nombre,
-                Estado = (bool)permiso.Estado
+                Estado = permiso.Estado
             }).ToList();
             return permisosDto;
         }
@@ -38,7 +39,7 @@ namespace IPM.Services
                 {
                     PermisoId = permiso.PermisoId,
                     Nombre = permiso.Nombre,
-                    Estado = (bool)permiso.Estado
+                    Estado = permiso.Estado
                 };
             }
             else
@@ -47,23 +48,20 @@ namespace IPM.Services
             }
         }
 
-        public async Task<PermisoDto> CrearPermisoAsync(PermisoDto permisoDto)
+        public async Task<bool> CrearPermisoAsync(PermisoCreacionDTO permisoDto)
         {
             var nuevoPermiso = new Permiso
             {
                 Nombre = permisoDto.Nombre,
-                Estado = permisoDto.Estado
-            };
+                Estado = IPMConstants.ESTADO_ACTIVO
+        };
 
+           
             _context.Permisos.Add(nuevoPermiso);
-            await _context.SaveChangesAsync();
+           int resp=  await _context.SaveChangesAsync();
 
-            return new PermisoDto
-            {
-                PermisoId = nuevoPermiso.PermisoId,
-                Nombre = nuevoPermiso.Nombre,
-                Estado =(bool)nuevoPermiso.Estado
-            };
+            return resp > 0;
+           
         }
 
         public async Task<bool> ActualizarPermisoAsync(int idPermiso, PermisoDto permisoDto)
@@ -94,9 +92,9 @@ namespace IPM.Services
                 return false;
             }
 
-            _context.Permisos.Remove(permisoExistente);
-            await _context.SaveChangesAsync();
-            return true;
+            permisoExistente.Estado = IPMConstants.ESTADO_INACTIVO;
+            int filasafectadas= await _context.SaveChangesAsync();
+            return filasafectadas > 0;
         }
     }
 }

@@ -9,7 +9,7 @@ public partial class Permiso
 
     public string? Nombre { get; set; }
 
-    public bool? Estado { get; set; }
+    public string? Estado { get; set; }
 
     public virtual ICollection<RolesPermiso> RolesPermisos { get; set; } = new List<RolesPermiso>();
 }

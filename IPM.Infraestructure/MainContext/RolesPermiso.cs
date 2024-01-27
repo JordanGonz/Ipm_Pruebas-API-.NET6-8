@@ -11,6 +11,8 @@ public partial class RolesPermiso
 
     public int RolPermisoId { get; set; }
 
+    public string? Estado { get; set; }
+
     public virtual Permiso Permiso { get; set; } = null!;
 
     public virtual Role Rol { get; set; } = null!;

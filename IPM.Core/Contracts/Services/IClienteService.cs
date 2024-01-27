@@ -9,10 +9,10 @@ namespace IPM.Core.Contracts.Services
 {
     public interface IClienteService
     {
-        Task<List<ClienteDto>> ObtenerTodosLosClienteAsync();
-        Task<ClienteDto> ObteneClientePorIdAsync(int clienteId);
-        Task<ClienteDto> CrearClienteAsync(ClienteDto clienteDto);
-        Task<bool> ActualizaClienteAsync(int clienteId, ClienteDto clienteDto);
+        Task<List<ConsultaCliente>> ObtenerTodosLosClienteAsync();
+        Task<ConsultaCliente> ObtenerClientePorIdAsync(int clienteId);
+        Task<bool> CrearClienteAsync(ClienteDto clienteDto);
+        Task<bool> ActualizarClienteAsync(int clienteId, EditarCliente clienteDto);
         Task<bool> EliminarClienteAsync(int clienteId);
     }
 

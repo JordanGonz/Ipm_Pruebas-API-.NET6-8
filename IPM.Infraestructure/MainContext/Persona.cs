@@ -27,8 +27,6 @@ public partial class Persona
 
     public string DireccionDomicilio { get; set; } = null!;
 
-    public int Estado { get; set; }
-
     public DateTime FechaCreacion { get; set; }
 
     public string UsuarioCreacion { get; set; } = null!;
@@ -37,13 +35,31 @@ public partial class Persona
 
     public string? UsuarioModificacion { get; set; }
 
-    public virtual CatalogoDetalle CargoNavigation { get; set; } = null!;
+    public string? Estado { get; set; }
 
-    public virtual CatalogoDetalle EstadoNavigation { get; set; } = null!;
+    public string? Imagen { get; set; }
 
-    public virtual CatalogoDetalle GeneroNavigation { get; set; } = null!;
+    public string? Linkedin { get; set; }
 
-    public virtual ICollection<ProyectoDetalle> ProyectoDetalles { get; set; } = new List<ProyectoDetalle>();
+    public string? Github { get; set; }
 
-    public virtual CatalogoDetalle TipoIdentificacionNavigation { get; set; } = null!;
+    public DateTime? FechaClave { get; set; }
+
+    public virtual ICollection<ActividadDiariaTimeReport> ActividadDiariaTimeReports { get; set; } = new List<ActividadDiariaTimeReport>();
+
+    public virtual ICollection<CursosTomado> CursosTomados { get; set; } = new List<CursosTomado>();
+
+    public virtual ICollection<EquipoPersonaAsignacion> EquipoPersonaAsignacions { get; set; } = new List<EquipoPersonaAsignacion>();
+
+    public virtual ICollection<FeedbackProgresoHistorico> FeedbackProgresoHistoricos { get; set; } = new List<FeedbackProgresoHistorico>();
+
+    public virtual ICollection<HistorialLaboral> HistorialLaborals { get; set; } = new List<HistorialLaboral>();
+
+    public virtual ICollection<Lidere> Lideres { get; set; } = new List<Lidere>();
+
+    public virtual ICollection<PersonaProyectosAsignacion> PersonaProyectosAsignacions { get; set; } = new List<PersonaProyectosAsignacion>();
+
+    public virtual ICollection<StackTecnologico> StackTecnologicos { get; set; } = new List<StackTecnologico>();
+
+    public virtual ICollection<Usuario> Usuarios { get; set; } = new List<Usuario>();
 }

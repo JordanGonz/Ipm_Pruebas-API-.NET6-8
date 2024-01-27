@@ -9,9 +9,11 @@ public partial class Role
 
     public string? Nombre { get; set; }
 
-    public bool? Estado { get; set; }
+    public string? Estado { get; set; }
+
+    public virtual ICollection<PaginaRol> PaginaRols { get; set; } = new List<PaginaRol>();
+
+    public virtual ICollection<RolUsuario> RolUsuarios { get; set; } = new List<RolUsuario>();
 
     public virtual ICollection<RolesPermiso> RolesPermisos { get; set; } = new List<RolesPermiso>();
-
-    public virtual ICollection<Usuario> UsuariosUsuarios { get; set; } = new List<Usuario>();
 }

@@ -19,8 +19,6 @@ public partial class Proyecto
 
     public DateTime? FechaFin { get; set; }
 
-    public int Estado { get; set; }
-
     public DateTime FechaCreacion { get; set; }
 
     public string UsuarioCreacion { get; set; } = null!;
@@ -29,11 +27,13 @@ public partial class Proyecto
 
     public string? UsuarioModificacion { get; set; }
 
-    public virtual CatalogoDetalle EstadoNavigation { get; set; } = null!;
+    public string? Estado { get; set; }
+
+    public virtual ICollection<ActividadDiariaTimeReport> ActividadDiariaTimeReports { get; set; } = new List<ActividadDiariaTimeReport>();
 
     public virtual Cliente IdClienteNavigation { get; set; } = null!;
 
-    public virtual Lider IdLiderPrincipalNavigation { get; set; } = null!;
+    public virtual ICollection<LiderProyecto> LiderProyectos { get; set; } = new List<LiderProyecto>();
 
-    public virtual ICollection<ProyectoDetalle> ProyectoDetalles { get; set; } = new List<ProyectoDetalle>();
+    public virtual ICollection<PersonaProyectosAsignacion> PersonaProyectosAsignacions { get; set; } = new List<PersonaProyectosAsignacion>();
 }

@@ -7,5 +7,6 @@ namespace IPM.Core.Contracts.Repositories
         Task<List<UsuarioDto>> ObtenerTodos();
         Task<bool> Eliminar(int idUsuario);
         Task<bool> Existe(string email);
+
     }
 }

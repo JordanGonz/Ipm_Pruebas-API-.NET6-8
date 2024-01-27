@@ -15,12 +15,12 @@ namespace IPM.Infraestructure.Mappers
                 .ForMember(dest => dest.CodigoProyecto, opt => opt.MapFrom(src => src.CodigoProyecto))
                 .ForMember(dest => dest.Descripcion, opt => opt.MapFrom(src => src.Descripcion))
                 .ForMember(dest => dest.FechaInicio, opt => opt.MapFrom(src => src.FechaInicio))
-                .ForMember(dest => dest.FechaFin, opt => opt.MapFrom(src => src.FechaFin))
-                .ForMember(dest => dest.Estado, opt => opt.MapFrom(src => src.Estado))
-                .ForMember(dest => dest.FechaCreacion, opt => opt.MapFrom(src => src.FechaCreacion))
-                .ForMember(dest => dest.UsuarioCreacion, opt => opt.MapFrom(src => src.UsuarioCreacion))
-                .ForMember(dest => dest.FechaModificacion, opt => opt.MapFrom(src => src.FechaModificacion))
-                .ForMember(dest => dest.UsuarioModificacion, opt => opt.MapFrom(src => src.UsuarioModificacion));
+                .ForMember(dest => dest.FechaFin, opt => opt.MapFrom(src => src.FechaFin));
+                
+                //.ForMember(dest => dest.FechaCreacion, opt => opt.MapFrom(src => src.FechaCreacion))
+                //.ForMember(dest => dest.UsuarioCreacion, opt => opt.MapFrom(src => src.UsuarioCreacion))
+                //.ForMember(dest => dest.FechaModificacion, opt => opt.MapFrom(src => src.FechaModificacion))
+                //.ForMember(dest => dest.UsuarioModificacion, opt => opt.MapFrom(src => src.UsuarioModificacion));
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using IPM.Core.Contracts.Services;
+﻿using IPM.Core.Constants;
+using IPM.Core.Contracts.Services;
 using IPM.Core.Dtos;
 using IPM.Infraestructure.MainContext;
 using Microsoft.EntityFrameworkCore;
@@ -25,7 +26,8 @@ namespace IPM.Services
             {
                 RolId = rp.RolId,
                 PermisoId = rp.PermisoId,
-                RolPermisoId = rp.RolPermisoId
+                RolPermisoId = rp.RolPermisoId,
+                Estado = rp.Estado
             }).ToList();
             return rolesPermisosDto;
         }
@@ -39,7 +41,8 @@ namespace IPM.Services
                 {
                     RolId = rolePermiso.RolId,
                     PermisoId = rolePermiso.PermisoId,
-                    RolPermisoId = rolePermiso.RolPermisoId
+                    RolPermisoId = rolePermiso.RolPermisoId,
+                    Estado = rolePermiso.Estado
                 };
             }
             else
@@ -48,24 +51,24 @@ namespace IPM.Services
             }
         }
 
-        public async Task<RolesPermisoDto> CrearRolePermiso(RolesPermisoDto rolesPermisoDto)
+        
+
+        public async Task<bool> CrearRolePermiso(RolesCreacionPermiso rolesPermisoDto)
         {
             var nuevoRolePermiso = new RolesPermiso
             {
                 RolId = rolesPermisoDto.RolId,
-                PermisoId = rolesPermisoDto.PermisoId
-            };
+                PermisoId = rolesPermisoDto.PermisoId,
+                Estado = IPMConstants.ESTADO_ACTIVO
 
+        };
+            
             _context.RolesPermisos.Add(nuevoRolePermiso);
-            await _context.SaveChangesAsync();
+            int resp= await _context.SaveChangesAsync();
 
-            // Mapea la entidad de RolePermiso nuevamente a un objeto RolesPermisoDto y devuélvelo
-            return new RolesPermisoDto
-            {
-                RolId = nuevoRolePermiso.RolId,
-                PermisoId = nuevoRolePermiso.PermisoId,
-                RolPermisoId = nuevoRolePermiso.RolPermisoId
-            };
+           
+            return resp > 0;
+            
         }
 
         public async Task<bool> ActualizarRolePermiso(int idRolePermiso, RolesPermisoDto rolesPermisoDto)
@@ -95,9 +98,10 @@ namespace IPM.Services
                 return false;
             }
 
-            _context.RolesPermisos.Remove(rolePermisoExistente);
-            await _context.SaveChangesAsync();
-            return true;
+            rolePermisoExistente.Estado = IPMConstants.ESTADO_INACTIVO;
+          
+            int filasAfectadas= await _context.SaveChangesAsync();
+            return filasAfectadas > 0;
         }
     }
 }

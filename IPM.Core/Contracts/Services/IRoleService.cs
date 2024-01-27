@@ -9,7 +9,7 @@ namespace IPM.Core.Contracts.Services
     {
         Task<List<RoleDto>> ObtenerTodosLosRoles();
         Task<RoleDto> ObtenerRolePorId(int idRol);
-        Task<RoleDto> CrearRol(RoleDto roleDto);
+        Task<bool> CrearRol(RoleCreacionDto roleDto);
         Task<bool> ActualizarRol(int idRol, RoleDto roleDto);
         Task<bool> EliminarRol(int idRol);
     }

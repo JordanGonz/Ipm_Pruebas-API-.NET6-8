@@ -11,7 +11,7 @@ namespace IPM.Core.Contracts.Services
     {
         Task<List<PermisoDto>> ObtenerTodosLosPermisosAsync();
         Task<PermisoDto> ObtenerPermisoPorIdAsync(int permisoId);
-        Task<PermisoDto> CrearPermisoAsync(PermisoDto permisoDto);
+        Task<bool> CrearPermisoAsync(PermisoCreacionDTO permisoDto);
         Task<bool> ActualizarPermisoAsync(int permisoId, PermisoDto permisoDto);
 
         

@@ -1,20 +1,15 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using IPM.Core.Dtos;
+﻿using IPM.Core.Dtos;
 
 namespace IPM.Core.Contracts.Services
 {
     public interface IPersonaService
     {
         Task<List<PersonaDto>> ObtenerTodosLosPersonaAsync();
-        Task<PersonaDto> ObtenePersonaPorIdAsync(int personaId);
-        Task<PersonaDto> CrearPersonaAsync(PersonaDto personaDto);
+        Task<PersonaDto> ObtenerPersonaPorIdAsync(int personaId);
+        Task<InformacionPersonaDto> ObtenerInformacionUsuario(int usuario);
+        Task<bool> CrearPersonaAsync(PersonaCreacionDTO personaDto);
         Task<bool> ActualizaPersonaAsync(int personaId, PersonaDto personaDto);
+        Task<bool> ActualizarInformacionPerfil(int idpersona, InformacionActualizarPersonaDto infoActPerfil);
         Task<bool> EliminarPersonaAsync(int personaId);
     }
-}
+}       

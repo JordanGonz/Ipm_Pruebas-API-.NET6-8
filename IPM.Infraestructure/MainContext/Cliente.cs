@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace IPM.Infraestructure.MainContext;
+﻿namespace IPM.Infraestructure.MainContext;
 
 public partial class Cliente
 {
@@ -21,7 +18,7 @@ public partial class Cliente
 
     public string? Celular { get; set; }
 
-    public int Estado { get; set; }
+    public string? Estado { get; set; }
 
     public DateTime FechaCreacion { get; set; }
 
@@ -31,13 +28,11 @@ public partial class Cliente
 
     public string? UsuarioModificacion { get; set; }
 
-    public virtual CatalogoDetalle EstadoNavigation { get; set; } = null!;
+    public string? UsuarioEliminacion { get; set; }
+
+    public DateTime? FechaEliminacion { get; set; }
 
     public virtual Empresa IdEmpresaNavigation { get; set; } = null!;
 
-    public virtual ICollection<Lider> Liders { get; set; } = new List<Lider>();
-
     public virtual ICollection<Proyecto> Proyectos { get; set; } = new List<Proyecto>();
-
-    public virtual CatalogoDetalle TipoIdentificacionNavigation { get; set; } = null!;
 }

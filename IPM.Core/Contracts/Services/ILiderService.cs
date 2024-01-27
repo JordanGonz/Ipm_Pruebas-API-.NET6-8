@@ -9,10 +9,10 @@ namespace IPM.Core.Contracts.Services
 {
     public interface ILiderService
     {
-        Task<List<LiderDto>> ObtenerTodosLosLiderAsync();
-        Task<LiderDto> ObteneLiderPorIdAsync(int liderId);
-        Task<LiderDto> CrearLiderAsync(LiderDto liderDto);
-        Task<bool> ActualizaLiderAsync(int liderId, LiderDto liderDto);
-        Task<bool> EliminarLiderAsync(int liderId);
+        Task<List<ObtenerLider>> ObtenerTodosLosLiderAsync();
+        Task<ObtenerLider> ObtenerLiderPorIdAsync(int liderDto);
+        Task<bool> CrearLiderAsync(LiderDto liderDto);
+        Task<bool> ActualizarLiderAsync(int liderId, EditarLider liderDto);
+        Task<bool> EliminarLiderAsync(int liderDto);
     }
 }

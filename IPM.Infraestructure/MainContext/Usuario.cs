@@ -19,7 +19,21 @@ public partial class Usuario
 
     public bool? Confirmado { get; set; }
 
-    public string? Token { get; set; }
+    public int? IdPersona { get; set; }
 
-    public virtual ICollection<Role> RolesRols { get; set; } = new List<Role>();
+    public string? Estado { get; set; }
+
+    public string? Codigo { get; set; }
+
+    public string? NombreUsuario { get; set; }
+
+    public DateTime? Fecha { get; set; }
+
+    public DateTime? ActulizadaClave { get; set; }
+
+    public virtual ICollection<ActividadDiariaTimeReport> ActividadDiariaTimeReports { get; set; } = new List<ActividadDiariaTimeReport>();
+
+    public virtual Persona? IdPersonaNavigation { get; set; }
+
+    public virtual ICollection<RolUsuario> RolUsuarios { get; set; } = new List<RolUsuario>();
 }
