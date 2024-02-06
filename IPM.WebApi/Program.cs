@@ -53,7 +53,7 @@ builder.Services.AddAutoMapper(
 );
 
 builder.Services.AddDbContext<IntegrityProjectManagementContext>(options =>
-        options.UseSqlServer(builder.Configuration.GetConnectionString("IntegrityProjectManagement")));
+        options.UseSqlServer(builder.Configuration.GetConnectionString("registroOficina")));
 
 builder.Services.Configure<TokenManagement>(builder.Configuration.GetSection("TokenManagement"));
 var tokenManagement = builder.Configuration.GetSection("TokenManagement").Get<TokenManagement>();
