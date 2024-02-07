@@ -11,6 +11,7 @@ using System.Text;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.OpenApi.Models;
 using IPM.Infraestructure.Mappers;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -142,7 +143,12 @@ app.UseSwaggerUI(c =>
 });
 
 
-
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory(), "ImagenesPersonas")),
+    RequestPath = "/ImagenesPersonas"
+});
 
 app.UseExceptionMiddleware();
 app.MapControllers();
