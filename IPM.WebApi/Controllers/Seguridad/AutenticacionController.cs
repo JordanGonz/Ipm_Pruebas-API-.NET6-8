@@ -85,14 +85,9 @@ public class AuthController : BaseApiController <AuthController>
 
             string ruta = "Template/Restablecer.html";
             string rutaCompleta = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ruta);
-
             string htmlContent = System.IO.File.ReadAllText(rutaCompleta);
 
-            // Reemplazar la etiqueta @codigo con el código real
             htmlContent = htmlContent.Replace("@code", code);
-
-            // Reemplazar la etiqueta @codigo con el código real
-
 
             var destinatarios = new List<string>();
             destinatarios.Add(request.Email);
