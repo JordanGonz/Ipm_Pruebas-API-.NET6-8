@@ -1,0 +1,65 @@
+trigger:
+- master
+
+pool:
+  name: Default
+
+variables:
+  buildConfiguration: 'Release'
+
+steps:
+# Paso 1: Instalar SDK de .NET 6.0
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '6.0.x'
+
+# Paso 2: Restaurar paquetes NuGet
+- script: dotnet restore IntegrityProjectManagement.sln
+  displayName: 'Restaurar paquetes NuGet'
+
+# Paso 3: Compilar la solución
+- script: dotnet build IntegrityProjectManagement.sln --configuration $(buildConfiguration)
+  displayName: 'Compilar solución'
+
+# Paso 4: Publicar la solución como un paquete .zip
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'publish'
+    arguments: '--configuration $(buildConfiguration) --output "$(Build.BinariesDirectory)"'
+    workingDirectory: '$(System.DefaultWorkingDirectory)'
+  displayName: 'Publicar solución'
+
+# Paso 5: Verificar contenido publicado
+- script: dir "$(Build.BinariesDirectory)"
+  displayName: 'Verificar contenido del directorio de binarios'
+
+# Paso 6: Crear archivo .zip del contenido publicado
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(Build.BinariesDirectory)'
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/ApiPrueba.zip'
+    replaceExistingArchive: true
+  displayName: 'Crear paquete .zip'
+
+# Paso 7: Verificar contenido del archivo .zip
+- script: dir "$(Build.ArtifactStagingDirectory)"
+  displayName: 'Verificar carpeta de artefactos'
+
+# Paso 8: Desplegar en Azure App Service
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'Azure subscription 1(823bf34d-ab31-4114-ad94-3efaffedd165)'
+    appType: 'webAppLinux'
+    WebAppName: 'PrimerApi'
+    packageForLinux: '$(Build.ArtifactStagingDirectory)/ApiPrueba.zip'
+
+# Paso 9: Publicar artefactos generados
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: '$(Build.ArtifactStagingDirectory)'
+    artifactName: 'drop'
+    publishLocation: 'Container'
